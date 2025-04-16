@@ -4,26 +4,22 @@ import piexif
 import io
 
 def add_url_to_image_description(input_file, url):
-    # Open the image from the uploaded file
+    # Open the uploaded image
     img = Image.open(input_file)
     
-    # Ensure the image is in a JPEG-compatible mode
+    # Check and convert image mode if necessary
     if img.mode not in ['L', 'RGB', 'CMYK']:
-        img = img.convert('RGB')
+        img = img.convert('RGB')  # Convert to RGB to ensure JPEG compatibility
     
-    # Load existing EXIF data or create a new EXIF dictionary
+    # Handle EXIF data
     try:
         exif_dict = piexif.load(img.info["exif"])
     except (KeyError, piexif.InvalidImageDataError):
         exif_dict = {"0th": {}, "Exif": {}, "GPS": {}, "1st": {}, "thumbnail": None}
-    
-    # Embed the URL in the ImageDescription EXIF field
     exif_dict["0th"][piexif.ImageIFD.ImageDescription] = url.encode("ascii", "replace")
-    
-    # Convert EXIF data to bytes
     exif_bytes = piexif.dump(exif_dict)
     
-    # Save the image to a BytesIO object in JPEG format
+    # Save the image to a BytesIO object
     output_file = io.BytesIO()
     img.save(output_file, format="JPEG", exif=exif_bytes)
     output_file.seek(0)
