@@ -1,6 +1,4 @@
-libjpeg-dev 
-zlib1g-dev
 streamlit==1.26.0
-pillow
+pillow==10.2.0
 piexif
 
