@@ -1,2 +1,3 @@
 pillow
 piexif
+streamlit==1.26.0
