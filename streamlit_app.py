@@ -20,9 +20,9 @@ def add_url_to_image_description(input_file, url):
     # Convert EXIF dictionary to bytes
     exif_bytes = piexif.dump(exif_dict)
     
-    # Save the image to a BytesIO object in WebP format
+    # Save the image to a BytesIO object in jpg format
     output_file = io.BytesIO()
-    img.save(output_file, format="WEBP", exif=exif_bytes)
+    img.save(output_file, format="JPG", exif=exif_bytes)
     output_file.seek(0)
     return output_file
 
@@ -42,7 +42,7 @@ if uploaded_file and url:
         # Get the original filename and generate the output filename
         original_name = uploaded_file.name
         name = original_name.rsplit('.', 1)[0]
-        output_name = f"{name}-1.webp"
+        output_name = f"{name}-1.jpg"
         
         # Process the image and get the output as a BytesIO object
         processed_image = add_url_to_image_description(uploaded_file, url)
@@ -52,7 +52,7 @@ if uploaded_file and url:
             label="Download processed image",
             data=processed_image,
             file_name=output_name,
-            mime="image/webp"
+            mime="image/jpg"
         )
         st.success(f"Image processed successfully. Download the file: {output_name}")
 
