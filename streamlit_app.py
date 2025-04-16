@@ -7,13 +7,14 @@ def add_url_to_image_description(input_file, url):
     # Open the image from the file-like object
     img = Image.open(input_file)
     
-    # Try loading existing EXIF or initialize a new one
+    # Try loading existing EXIF or initialize new one
     try:
         exif_dict = piexif.load(img.info["exif"])
     except (KeyError, piexif.InvalidImageDataError):
         exif_dict = {"0th": {}, "Exif": {}, "GPS": {}, "1st": {}, "thumbnail": None}
+
     
-    # Set the ImageDescription field with the URL (ASCII-encoded)
+     # Set the ImageDescription field (ASCII, not UTF-8!)
     exif_dict["0th"][piexif.ImageIFD.ImageDescription] = url.encode("ascii", "replace")
     
     # Convert EXIF dictionary to bytes
