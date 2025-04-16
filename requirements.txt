@@ -1,4 +1,5 @@
-streamlit==1.26.0
-pillow==9.3
+streamlit==1.44.1
+pillow==10.4.0
+rich
 piexif
 
